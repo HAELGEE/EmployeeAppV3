@@ -28,7 +28,7 @@ public class EmployeeService
                     anställd.PunchedIn = true;
 
 
-                    anställd.DayStamps!.Add(new Time { Started = start, Stopped = 0});
+                    anställd.DayStamps!.Add(new Time { Started = start, Stopped = 0, Date = DateTime.Now.ToString("yyyy-MM-dd")});
                     
                 }
                 else if (stop != 0)

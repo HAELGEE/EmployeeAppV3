@@ -1,8 +1,26 @@
 ﻿@model Employee
 @{
-    ViewBag.Title = "Information om Anställd";    
+    ViewBag.Title = "Information om Anställd";
+    string text = "_";
 }
 <partial name="_QrGenerator" model="Model" />
+
+<div style="position: absolute; left: 60rem; top: 3rem;">
+
+    @if (Model.DayStamps!.Count() != 0)
+    {
+        <h4><u>Dina stämplingar:</u></h4>
+        @foreach (var day in Model.DayStamps!)
+        {
+            <h5>In: @day.Date _ @day.Started - Ut: @if(day.Stopped != 0) {@day.Date @text @day.Stopped}</h5>
+        }
+    }
+    else
+    {
+        <h4><u>Dina stämplingar:</u></h4>
+        <h5>Finns inga stämplingar än</h5>
+    }
+</div>
 
 <h3>Id:</h3>
 <h4>@Model.Id</h4>

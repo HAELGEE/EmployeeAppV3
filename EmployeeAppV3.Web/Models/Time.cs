@@ -4,4 +4,5 @@ public class Time
 {
     public decimal? Started { get; set; }
     public decimal? Stopped { get; set; }
+    public string? Date { get; set; }
 }
