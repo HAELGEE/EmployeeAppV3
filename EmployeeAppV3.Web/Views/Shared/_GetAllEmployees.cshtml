@@ -1,10 +1,20 @@
-﻿@model Employee[]
+﻿@{
+   
+}
+@model Employee[]
 <div>
     @foreach (var person in Model)
     {
+        string Start = "";
+        string Stop = "";
+        
         if (person.PunchedIn)
         {
-            <h5>@person.Name - @person.Start</h5>
+            char[] startArray = Convert.ToString(person.Start)!.ToCharArray();
+            startArray![2] = ':';
+            Start = new string(startArray)!;
+
+            <h5>@person.Name - kl: @Start</h5>
         }
     }
 </div>
