@@ -21,17 +21,28 @@ public class EmployeeService
         {
             if (anställd.Id == id)
             {
-                if (start != 0)
+                if (start != 0 || anställd.Start == 0)
                 {
                     anställd.Start = start;
                     anställd.Stop = 0;
                     anställd.PunchedIn = true;
+
+
+                    anställd.DayStamps!.Add(new Time { Started = start, Stopped = 0});
+                    
                 }
                 else if (stop != 0)
                 {
                     anställd.Stop = stop;
-                    anställd.Start = 0;
                     anställd.PunchedIn = false;
+
+                    foreach (var Time in anställd.DayStamps!)
+                    {
+                        int count = anställd.DayStamps.Count() - 1;
+                        anställd.DayStamps[count].Stopped = stop;
+
+                        //anställd.DayStamps.Add(new Time { Start = start, Stop = 0 });
+                    }
                 }
             }
         }

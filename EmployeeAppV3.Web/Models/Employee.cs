@@ -15,7 +15,7 @@ public class Employee
     [Display(Name = "Ange personens Email", Prompt = "Var god skriv Email här....")]
     [EmailAddress(ErrorMessage = "Måste vara giltig email")]
     public string? Email { get; set; }
-
+    public List<Time>? DayStamps { get; set; } = new List<Time>();
     public decimal Start { get; set; }
     public decimal Stop { get; set; }
     public bool PunchedIn { get; set; }

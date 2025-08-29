@@ -1,7 +1,8 @@
-﻿@{
-    ViewBag.Title = "Detalj Vy";
+﻿@model Employee
+@{
+    ViewBag.Title = "Information om Anställd";    
 }
-@model Employee
+<partial name="_QrGenerator" model="Model" />
 
 <h3>Id:</h3>
 <h4>@Model.Id</h4>
@@ -13,5 +14,18 @@
 <h4>@Model.Email</h4>
 <br />
 <h3>Instämplad:</h3>
-<h4>@Model.PunchedIn</h4>
+<h4>In: @Model.Start</h4>
+<h4>Ut: @Model.Stop</h4>
+<br />
+@if (Model.PunchedIn)
+{
+    <h4>Instämplad: @Model.Start</h4>
+}
+else
+{
+    <h4>Utstämplad: @Model.Stop</h4>
+}
+<base64></base64>
+
+<a asp-controller="employee" asp-action="Salary" asp-route-id="@Model.Id">Kolla lön</a>
 

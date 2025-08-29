@@ -1,12 +1,17 @@
 ﻿@using QRCoder
-@using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
-@using (QRCodeData qrCodeData = qrGenerator.CreateQrCode("The text which should be encoded.", QRCodeGenerator.ECCLevel.Q))
-@using (PngByteQRCode qrCode = new PngByteQRCode(qrCodeData))
+@using static QRCoder.PayloadGenerator
+@{
+    Url generator = new Url($"https://localhost:7152/Punchclock?id={Model.Id}");
+    string payload = generator.ToString();
 
-{
-    byte[] qrCodeImage = qrCode.GetGraphic(20);
+    QRCodeGenerator qrGenerator = new QRCodeGenerator();
+    QRCodeData qrCodeData = qrGenerator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.Q);
+    PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
+
+
+    byte[] qrCodeImage = qrCode.GetGraphic(10);
+
+    string qrCodeBase64 = Convert.ToBase64String(qrCodeImage);
 }
 
-<div>
-
-</div>
+<img src="data:image/png;base64,@qrCodeBase64" alt="Qr code" style="position: absolute; left: 30rem; top: 10rem;">

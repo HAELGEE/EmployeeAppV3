@@ -4,6 +4,7 @@
 @model Employee[]
 
 
+
 @if (ViewBag.SelectedId == null)
 {
     <form asp-controller="employee" asp-action="punchclock" method="get">
@@ -20,7 +21,7 @@ else
 
     if (anställd != null)
     {
-        @if (anställd.Start == 0)
+        @if (!anställd.PunchedIn)
         {
             <h2>Var god stämpla in</h2>
             <br />
@@ -33,7 +34,7 @@ else
                 <button>Stämpla in</button>
             </form>
         }
-        else if (anställd!.Stop == 0)
+        else if (anställd.PunchedIn)
         {
             <h2>Var god stämpla ut</h2>
             <br />

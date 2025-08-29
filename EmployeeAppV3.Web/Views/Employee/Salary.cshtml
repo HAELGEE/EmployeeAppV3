@@ -1,0 +1,43 @@
+﻿@model Employee
+@{
+    ViewBag.Title = "Lönespec";
+    decimal? timmar = 0;
+    int lön = 0;
+
+    foreach (var tid in Model.DayStamps)
+    {
+        if (tid.Stopped != 0)
+        {
+            timmar += tid.Stopped - tid.Started;
+        }
+    }
+
+    if (timmar > 0)
+    {
+        lön += Convert.ToInt32(timmar * 1200);
+    }
+
+}
+
+<h3>Här visas din lönespec</h3>
+
+<ul>
+    <li>
+        <h4>Anställnings nummer: @Model.Id</h4>
+    </li>
+    <li>
+        <h4>Namn: @Model.Name</h4>
+    </li>
+
+    <li>
+        <h4>Du har 1200kr/tim</h4>
+    </li>
+    <li>
+        <h4> Arbetad tid: @timmar </h4>
+    </li>
+
+</ul>
+<br />
+
+<hr />
+<h4>Lön: @lön kr</h4>

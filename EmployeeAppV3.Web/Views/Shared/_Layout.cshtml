@@ -11,10 +11,14 @@
         @RenderBody()
     </div>
     <br />
+    
     <a asp-controller="Employee" asp-action="Index">Bakåt</a>
+
     <br />
     <br />
+
     <partial name="_TimeBox" model="Model" />
+
     @RenderSection("scripts", false)
 </body>
 </html>

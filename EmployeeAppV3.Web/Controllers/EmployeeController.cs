@@ -49,4 +49,19 @@ public class EmployeeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    // Lön sida
+    [HttpGet("Salary/{id}")]
+    public IActionResult Salary(int id)
+    {
+        return View(employeeService.GetEmployeeById(id));
+    }
+
+    [HttpPost("Salary")]
+    public IActionResult Salary(int Id, decimal Start, decimal Stop)
+    {
+        employeeService.AddTime(Id, Start, Stop);
+
+        return RedirectToAction(nameof(Index));
+    }
 }
