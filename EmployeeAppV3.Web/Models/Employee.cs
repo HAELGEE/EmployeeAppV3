@@ -19,4 +19,5 @@ public class Employee
     public decimal Start { get; set; }
     public decimal Stop { get; set; }
     public bool PunchedIn { get; set; }
+    public int Salary { get; set; }
 }

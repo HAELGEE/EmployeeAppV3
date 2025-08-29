@@ -6,9 +6,9 @@ namespace EmployeeAppV3.Web.Services;
 public class EmployeeService
 {
     static List<Employee> employees = new List<Employee>([
-        new Employee{Id = 1, Name = "Christofer", Email = "Koffe@internet.se", PunchedIn = false},
-        new Employee{Id = 3, Name = "Viktor", Email = "Viktor@internet.se", PunchedIn = false},
-        new Employee{Id = 2, Name = "Evelina", Email = "Evelina@internet.se", PunchedIn = false}
+        new Employee{Id = 1, Name = "Christofer", Email = "Koffe@internet.se", PunchedIn = false, Salary = 1337},
+        new Employee{Id = 3, Name = "Viktor", Email = "Viktor@internet.se", PunchedIn = false, Salary = 13},
+        new Employee{Id = 2, Name = "Evelina", Email = "Evelina@internet.se", PunchedIn = false, Salary = 37}
         ]);
 
     public Employee[] GetAllEmployees() => employees.OrderBy(x => x.Id).ToArray();
