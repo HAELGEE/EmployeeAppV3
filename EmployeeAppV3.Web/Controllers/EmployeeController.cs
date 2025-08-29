@@ -13,12 +13,14 @@ public class EmployeeController : Controller
         return View(employeeService.GetAllEmployees());
     }
 
+    // Info om anställd
     [HttpGet("Details/{id}")]
     public IActionResult Details(int id)
     {
         return View(employeeService.GetEmployeeById(id));
     }
 
+    // Skapa anställd
     [HttpGet("Create")]
     public IActionResult Create()
     {
