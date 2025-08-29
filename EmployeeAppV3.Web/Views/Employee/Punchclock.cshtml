@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Stämpel Klocka";
+}
+@model Employee[]
+
+
+@if (ViewBag.SelectedId == null)
+{
+    <form asp-controller="employee" asp-action="punchclock" method="get">
+        <input type="text" name="id" placeholder="Ange ditt Id här..." value="@ViewBag.SelectedId" style="width: 30rem;"/>
+        <br />
+        <button type="submit" style="width: 6rem;">Sök</button>
+    </form>
+}
+else
+{
+    var selectedId = (int)ViewBag.SelectedId;
+
+    var anställd = Model.FirstOrDefault(e => e.Id == selectedId);
+
+    if (anställd != null)
+    {
+        @if (anställd.Start == 0)
+        {
+            <h2>Var god stämpla in</h2>
+            <br />
+            <form asp-controller="employee" asp-action="punchclock">
+
+                <input name="Id" type="hidden" style="width: 0.1rem;" value="@anställd.Id">
+                <input name="Start" style="visibility: hidden; width: 0.1rem;" value="@Convert.ToDecimal(@DateTime.Now.ToString("HH,mm"))">
+                <input name="Stop" style="visibility: hidden; width: 0.1rem;" value="0">
+
+                <button>Stämpla in</button>
+            </form>
+        }
+        else if (anställd!.Stop == 0)
+        {
+            <h2>Var god stämpla ut</h2>
+            <br />
+            <form asp-controller="employee" asp-action="punchclock">
+
+                <input name="Id" type="hidden" style="width: 0.1rem;" value="@anställd.Id">
+                <input name="Start" style="visibility: hidden; width: 1rem;" value="0">
+                <input name="Stop" style="visibility: hidden; width: 1rem;" value="@Convert.ToDecimal(@DateTime.Now.ToString("HH,mm"))">
+
+                <button>Stämpla ut</button>
+            </form>
+        }
+    }
+}
+<br />
+<br />
+
+<h3>Redan instämplade:</h3>
+<partial name="_GetAllEmployees" model="Model" />
+
+
+
+@section scripts
+{
+    <script src="https://ajax."
+            asp-fallback-src="~/scripts/lib/jquery/jquery.min.js"
+            asp-fallback-test="window.jQuery"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
+}

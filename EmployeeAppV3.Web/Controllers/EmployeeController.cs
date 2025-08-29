@@ -33,4 +33,20 @@ public class EmployeeController : Controller
         employeeService.CreateEmployee(employee);
         return RedirectToAction(nameof(Index));
     }
+
+    // Stämpel Klocka
+    [HttpGet("Punchclock")]
+    public IActionResult Punchclock(int? id)
+    {
+        ViewBag.SelectedId = id;
+        return View(employeeService.GetAllEmployees());
+    }
+
+    [HttpPost("Punchclock")]
+    public IActionResult Punchclock(int Id, decimal Start, decimal Stop)
+    {          
+        employeeService.AddTime(Id, Start, Stop);
+
+        return RedirectToAction(nameof(Index));
+    }
 }

@@ -1,0 +1,10 @@
+﻿@model Employee[]
+<div>
+    @foreach (var person in Model)
+    {
+        if (person.PunchedIn)
+        {
+            <h5>@person.Name - @person.Start</h5>
+        }
+    }
+</div>
