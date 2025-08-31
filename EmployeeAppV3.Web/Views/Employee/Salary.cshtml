@@ -1,22 +1,6 @@
 ﻿@model Employee
 @{
-    ViewBag.Title = "Lönespec";
-    decimal? timmar = 0;
-    int lön = 0;
-
-    foreach (var tid in Model.DayStamps)
-    {
-        if (tid.Stopped != 0)
-        {
-            timmar += tid.Stopped - tid.Started;
-        }
-    }
-
-    if (timmar > 0)
-    {
-        lön += Convert.ToInt32(timmar * 1200);
-    }
-
+    ViewBag.Title = "Lönespec";    
 }
 
 <h3>Här visas din lönespec</h3>
@@ -33,11 +17,11 @@
         <h4>Du har @Model.Salary kr/tim</h4>
     </li>
     <li>
-        <h4> Arbetad tid: @timmar timmar</h4>
+        <h4> Arbetad tid: @Model.WorkedTime timmar</h4>
     </li>
 
 </ul>
 <br />
 
 <hr />
-<h4>Lön: @lön kr</h4>
+<h4>Lön: @Model.MonthSalary kr</h4>

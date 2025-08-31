@@ -1,6 +1,7 @@
 ﻿using EmployeeAppV3.Web.Models;
 using EmployeeAppV3.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace EmployeeAppV3.Web.Controllers;
 public class EmployeeController : Controller
@@ -17,7 +18,12 @@ public class EmployeeController : Controller
     [HttpGet("Details/{id}")]
     public IActionResult Details(int id)
     {
-        return View(employeeService.GetEmployeeById(id));
+        var employee = employeeService.GetEmployeeById(id);
+
+        if (employee != null)
+            return View(employee);
+        else
+            return RedirectToAction(nameof(Index));
     }
 
     // Skapa anställd
@@ -29,8 +35,8 @@ public class EmployeeController : Controller
     [HttpPost("Create")]
     public IActionResult Create(Employee employee)
     {
-        if(!ModelState.IsValid) 
-        return View();
+        if (!ModelState.IsValid)
+            return View();
 
         employeeService.CreateEmployee(employee);
         return RedirectToAction(nameof(Index));
@@ -45,9 +51,9 @@ public class EmployeeController : Controller
     }
 
     [HttpPost("Punchclock")]
-    public IActionResult Punchclock(int Id, decimal Start, decimal Stop)
-    {          
-        employeeService.AddTime(Id, Start, Stop);
+    public IActionResult Punchclock(int Id, bool PunchedIn)
+    {
+        employeeService.AddTime(Id, PunchedIn);
 
         return RedirectToAction(nameof(Index));
     }
@@ -56,14 +62,16 @@ public class EmployeeController : Controller
     [HttpGet("Salary/{id}")]
     public IActionResult Salary(int id)
     {
-        return View(employeeService.GetEmployeeById(id));
+        Employee employee = employeeService.GetEmployeeById(id);
+
+        employeeService.MonthSalaryAdd(employee);
+
+        return View(employee);
     }
 
-    [HttpPost("Salary")]
-    public IActionResult Salary(int Id, decimal Start, decimal Stop)
-    {
-        employeeService.AddTime(Id, Start, Stop);
-
-        return RedirectToAction(nameof(Index));
-    }
+    //[HttpPost("Salary")]
+    //public IActionResult Salary(int Id, TimeOnly Start, TimeOnly Stop)
+    //{
+    //    return RedirectToAction(nameof(Index));
+    //}
 }

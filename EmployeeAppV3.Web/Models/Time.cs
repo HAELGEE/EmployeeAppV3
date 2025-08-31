@@ -2,7 +2,7 @@
 
 public class Time
 {
-    public decimal? Started { get; set; }
-    public decimal? Stopped { get; set; }
-    public string? Date { get; set; }
+    public DateTime Started { get; set; }
+    public DateTime? Stopped { get; set; }
+    public DateOnly Date { get; set; }
 }

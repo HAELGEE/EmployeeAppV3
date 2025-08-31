@@ -1,22 +1,14 @@
 ﻿@model Employee
 @{
     ViewBag.Title = "Information om Anställd";
-    string text = "-";
     string Start = "";
     string Stop = "";
 
-    if (Model.Start != 0)
+    foreach(var time in Model.DayStamps!)
     {
-        char[] startArray = Convert.ToString(Model.Start)!.ToCharArray();
-        startArray![2] = ':';
-        Start = new string(startArray)!;
-    }
-    if (Model.Stop != 0)
-    {
-        char[] stopArray = Convert.ToString(Model.Stop)!.ToCharArray();
-        stopArray![2] = ':';
-        Stop = new string(stopArray)!;
-    }
+        Start = time.Started.ToString()!;
+        Stop = time.Stopped.ToString()!;
+    }    
 }
 <partial name="_QrGenerator" model="Model" />
 
@@ -24,24 +16,10 @@
 
     @if (Model.DayStamps!.Count() != 0)
     {
-        string newStart = "";
-        string newStop = "";
-
         <h4><u>Dina stämplingar:</u></h4>
         @foreach (var day in Model.DayStamps!)
-        {
-            char[] chars = Convert.ToString(day.Started)!.ToCharArray();
-            chars![2] = ':';
-            newStart = new string(chars)!;
-
-            if (day.Stopped != 0)
-            {
-                char[] chars2 = Convert.ToString(day.Stopped)!.ToCharArray();
-                chars2![2] = ':';
-                newStop = new string(chars)!;
-            }
-
-            <h5>In: @day.Date - @newStart - Ut: @if(day.Stopped != 0) {@day.Date @text @newStop}</h5>
+        {   
+            <h5>In: <u>@day.Started</u> - Ut: @if(day.Stopped != null) {<u>@day.Stopped</u>}</h5>
         }
     }
     else
@@ -61,13 +39,14 @@
 <h4>@Model.Email</h4>
 <br />
 <h3><u>Stämpling:</u></h3>
-@if (Model.PunchedIn)
+@if (Model.PunchedIn! == true || Model.PunchedIn! == null)
 {
-    <h4>Instämplad: @Start</h4>
+    @if (Model.DayStamps.Count != 0){<h4>Instämplad: <u>@Start</u></h4>}
+    else{<h4>Inga stämplingar än</h4>}
 }
 else
 {    
-    @if (Model.Stop != 0) {<h4> Utstämplad: @Stop </h4>}
+    <h4> Utstämplad: <u>@Stop</u> </h4>
 }
 <br />
 <a asp-controller="employee" asp-action="Salary" asp-route-id="@Model.Id">Kolla lön</a>

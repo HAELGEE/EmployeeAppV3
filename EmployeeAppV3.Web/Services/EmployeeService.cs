@@ -6,42 +6,37 @@ namespace EmployeeAppV3.Web.Services;
 public class EmployeeService
 {
     static List<Employee> employees = new List<Employee>([
-        new Employee{Id = 1, Name = "Christofer", Email = "Koffe@internet.se", PunchedIn = false, Salary = 1337},
-        new Employee{Id = 3, Name = "Viktor", Email = "Viktor@internet.se", PunchedIn = false, Salary = 13},
-        new Employee{Id = 2, Name = "Evelina", Email = "Evelina@internet.se", PunchedIn = false, Salary = 37}
+        new Employee{Id = 1, Name = "Christofer", Email = "Koffe@internet.se", PunchedIn = null, Salary = 1337},
+        new Employee{Id = 3, Name = "Viktor", Email = "Viktor@internet.se", PunchedIn = null, Salary = 13},
+        new Employee{Id = 2, Name = "Evelina", Email = "Evelina@internet.se", PunchedIn = null, Salary = 37}
         ]);
 
     public Employee[] GetAllEmployees() => employees.OrderBy(x => x.Id).ToArray();
 
-    public Employee GetEmployeeById(int id) => employees.Single(x => x.Id == id);
+    public Employee GetEmployeeById(int id) => employees.SingleOrDefault(x => x.Id == id); // Skickar null om jag inte får något ID
 
-    public void AddTime(int id, decimal start, decimal stop)
+    public void AddTime(int id, bool punchedIn)
     {
         foreach (var anställd in employees)
         {
             if (anställd.Id == id)
             {
-                if (start != 0 || anställd.Start == 0)
-                {
-                    anställd.Start = start;
-                    anställd.Stop = 0;
-                    anställd.PunchedIn = true;
 
+                if (punchedIn)
+                {                    
+                    anställd.PunchedIn = punchedIn;                    
 
-                    anställd.DayStamps!.Add(new Time { Started = start, Stopped = 0, Date = DateTime.Now.ToString("yyyy-MM-dd")});
+                    anställd.DayStamps!.Add(new Time { Started = DateTime.Now, Date = DateOnly.FromDateTime(DateTime.Now)});
                     
                 }
-                else if (stop != 0)
+                else if (!punchedIn)
                 {
-                    anställd.Stop = stop;
-                    anställd.PunchedIn = false;
+                    anställd.PunchedIn = punchedIn;
 
                     foreach (var Time in anställd.DayStamps!)
                     {
                         int count = anställd.DayStamps.Count() - 1;
-                        anställd.DayStamps[count].Stopped = stop;
-
-                        //anställd.DayStamps.Add(new Time { Start = start, Stop = 0 });
+                        anställd.DayStamps[count].Stopped = DateTime.Now;
                     }
                 }
             }
@@ -53,6 +48,33 @@ public class EmployeeService
         employee.Id = employees.Count() == 0 ? 1 : employees.Max(x => x.Id) + 1;
 
         employees.Add(employee);
+    }
+
+    public void MonthSalaryAdd(Employee employee)
+    {       
+        foreach (var tid in employee.DayStamps!)
+        {            
+            if (tid.Stopped.HasValue)
+            {              
+
+                char[] chars = tid.Started.ToShortTimeString().ToCharArray();
+                chars![2] = ',';
+                decimal newStart = Convert.ToDecimal(new string(chars))!;
+
+                char[] chars2 = tid.Stopped.Value.ToShortTimeString().ToCharArray();
+                chars2![2] = ',';
+                decimal newStop = Convert.ToDecimal(new string(chars))!;
+
+                var time = newStop - newStart;
+
+                employee.WorkedTime += time;
+            }
+        }
+
+        if (employee.WorkedTime > 0)
+        {
+            employee.Salary += Convert.ToInt32(employee.WorkedTime * 1200);
+        }
     }
 
 }

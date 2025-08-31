@@ -1,6 +1,5 @@
 ﻿@{
     ViewBag.Title = "Stämpel Klocka";
-
 }
 @model Employee[]
 
@@ -22,28 +21,26 @@ else
 
     if (anställd != null)
     {
-        @if (!anställd.PunchedIn)
+        @if (anställd.PunchedIn! == false || anställd.PunchedIn! == null)
         {
             <h2>Var god stämpla in</h2>
             <br />
             <form asp-controller="employee" asp-action="punchclock">
 
                 <input name="Id" type="hidden" style="width: 0.1rem;" value="@anställd.Id">
-                <input name="Start" style="visibility: hidden; width: 0.1rem;" value="@Convert.ToDecimal(@DateTime.Now.ToString("HH,mm"))">
-                <input name="Stop" style="visibility: hidden; width: 0.1rem;" value="0">
+                <input name="PunchedIn" style="visibility: hidden; width: 0.1rem;" value="true">
 
                 <button>Stämpla in</button>
             </form>
         }
-        else if (anställd.PunchedIn)
+        else if (anställd.PunchedIn! == true)
         {
             <h2>Var god stämpla ut</h2>
             <br />
             <form asp-controller="employee" asp-action="punchclock">
 
                 <input name="Id" type="hidden" style="width: 0.1rem;" value="@anställd.Id">
-                <input name="Start" style="visibility: hidden; width: 1rem;" value="0">
-                <input name="Stop" style="visibility: hidden; width: 1rem;" value="@Convert.ToDecimal(@DateTime.Now.ToString("HH,mm"))">
+                <input name="PunchedIn" style="visibility: hidden; width: 1rem;" value="false">
 
                 <button>Stämpla ut</button>
             </form>
