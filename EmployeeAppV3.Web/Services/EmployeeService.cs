@@ -23,11 +23,11 @@ public class EmployeeService
             {
 
                 if (punchedIn)
-                {                    
-                    anställd.PunchedIn = punchedIn;                    
+                {
+                    anställd.PunchedIn = punchedIn;
 
-                    anställd.DayStamps!.Add(new Time { Started = DateTime.Now, Date = DateOnly.FromDateTime(DateTime.Now)});
-                    
+                    anställd.DayStamps!.Add(new Time { Started = DateTime.Now, Date = DateOnly.FromDateTime(DateTime.Now) });
+
                 }
                 else if (!punchedIn)
                 {
@@ -51,11 +51,13 @@ public class EmployeeService
     }
 
     public void MonthSalaryAdd(Employee employee)
-    {       
+    {
+        decimal time = 0;
+
         foreach (var tid in employee.DayStamps!)
-        {            
+        {
             if (tid.Stopped.HasValue)
-            {              
+            {
 
                 char[] chars = tid.Started.ToShortTimeString().ToCharArray();
                 chars![2] = ',';
@@ -65,15 +67,23 @@ public class EmployeeService
                 chars2![2] = ',';
                 decimal newStop = Convert.ToDecimal(new string(chars))!;
 
-                var time = newStop - newStart;
+                time = newStop - newStart;
 
-                employee.WorkedTime += time;
+
+
             }
         }
 
-        if (employee.WorkedTime > 0)
+        if (time > 0)
         {
-            employee.Salary += Convert.ToInt32(employee.WorkedTime * 1200);
+            foreach (var employed in employees)
+            {
+                if (employed.Id == employee.Id)
+                {
+                    employed.WorkedTime = time;
+                    employed.Salary += Convert.ToInt32(employed.WorkedTime * 1200);
+                }
+            }
         }
     }
 
