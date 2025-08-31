@@ -15,8 +15,8 @@ public class Employee
     [Display(Name = "Ange personens Email", Prompt = "Var god skriv Email här....")]
     [EmailAddress(ErrorMessage = "Måste vara giltig email")]
     public string? Email { get; set; }
-    public List<Time>? DayStamps { get; set; } = new List<Time>();    
-    public bool? PunchedIn { get; set; }
+    public List<Time>? DayStamps { get; set; } = new List<Time>();
+    public bool? PunchedIn { get; set; } = null;
     public int Salary { get; set; }
     public int MonthSalary { get; set; }
     public decimal WorkedTime { get; set; }
