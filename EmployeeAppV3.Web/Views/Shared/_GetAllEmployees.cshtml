@@ -4,10 +4,7 @@
 @model Employee[]
 <div>
     @foreach (var person in Model)
-    {
-        string Start = "";
-        string Stop = "";
-
+    {       
         if (person.PunchedIn! == true)
         {
             foreach (var time in person.DayStamps)

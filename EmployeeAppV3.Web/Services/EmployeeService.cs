@@ -65,26 +65,23 @@ public class EmployeeService
 
                 char[] chars2 = tid.Stopped.Value.ToShortTimeString().ToCharArray();
                 chars2![2] = ',';
-                decimal newStop = Convert.ToDecimal(new string(chars))!;
+                decimal newStop = Convert.ToDecimal(new string(chars2))!;
 
                 time = newStop - newStart;
-
-
-
             }
         }
 
-        if (time > 0)
+
+        foreach (var employed in employees)
         {
-            foreach (var employed in employees)
+            if (employed.Id == employee.Id)
             {
-                if (employed.Id == employee.Id)
-                {
-                    employed.WorkedTime = time;
-                    employed.Salary += Convert.ToInt32(employed.WorkedTime * 1200);
-                }
+                employed.WorkedTime += time;
+                employed.MonthSalary += Convert.ToInt32(employed.WorkedTime * 1200);
+                break;
             }
         }
+
     }
 
 }
