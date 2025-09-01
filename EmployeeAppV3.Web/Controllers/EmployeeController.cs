@@ -68,10 +68,4 @@ public class EmployeeController : Controller
 
         return View(employee);
     }
-
-    //[HttpPost("Salary")]
-    //public IActionResult Salary(int Id, TimeOnly Start, TimeOnly Stop)
-    //{
-    //    return RedirectToAction(nameof(Index));
-    //}
 }
