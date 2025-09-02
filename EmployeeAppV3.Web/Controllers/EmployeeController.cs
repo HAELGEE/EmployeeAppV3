@@ -6,31 +6,39 @@ using System.Reflection;
 namespace EmployeeAppV3.Web.Controllers;
 public class EmployeeController : Controller
 {
-    EmployeeService employeeService = new EmployeeService();
+    private readonly EmployeeService _employeeService;
+    EmployeeViewModel viewModel = new EmployeeViewModel();
 
-    [Route("")]
+
+    public EmployeeController(EmployeeService employeeService)
+    {
+        _employeeService = employeeService;
+    }
+
+
+    //[Route("")]
     public IActionResult Index()
     {
-        return View(employeeService.GetAllEmployees());
+        viewModel.EmployeeService = _employeeService;
+        return View(viewModel);
     }
 
     // Info om anställd
-    [HttpGet("Details/{id}")]
+    //[HttpGet("Details/{id}")]
     public IActionResult Details(int id)
     {
-        var employee = employeeService.GetEmployeeById(id);
+        ViewBag.Id = id;
 
-        if (employee != null)
-            return View(employee);
-        else
-            return RedirectToAction(nameof(Index));
+        viewModel.EmployeeService = _employeeService;
+        return View(viewModel);
     }
 
     // Skapa anställd
     [HttpGet("Create")]
     public IActionResult Create()
     {
-        return View();
+        viewModel.EmployeeService = _employeeService;
+        return View(viewModel);
     }
     [HttpPost("Create")]
     public IActionResult Create(Employee employee)
@@ -38,34 +46,35 @@ public class EmployeeController : Controller
         if (!ModelState.IsValid)
             return View();
 
-        employeeService.CreateEmployee(employee);
+        _employeeService.CreateEmployee(employee);
         return RedirectToAction(nameof(Index));
     }
 
     // Stämpel Klocka
-    [HttpGet("Punchclock")]
+    //[HttpGet("Punchclock")]
     public IActionResult Punchclock(int? id)
     {
         ViewBag.SelectedId = id;
-        return View(employeeService.GetAllEmployees());
+                
+        viewModel.EmployeeService = _employeeService;
+        return View(viewModel);
     }
 
     [HttpPost("Punchclock")]
     public IActionResult Punchclock(int Id, bool PunchedIn)
     {
-        employeeService.AddTime(Id, PunchedIn);
+        _employeeService.AddTime(Id, PunchedIn);
 
         return RedirectToAction(nameof(Index));
     }
 
     // Lön sida
-    [HttpGet("Salary/{id}")]
+    //[HttpGet("Salary/{id}")]
     public IActionResult Salary(int id)
     {
-        Employee employee = employeeService.GetEmployeeById(id);
+        ViewBag.Id = id;
 
-        employeeService.MonthSalaryAdd(employee);
-
-        return View(employee);
+        viewModel.EmployeeService = _employeeService;
+        return View(viewModel);        
     }
 }

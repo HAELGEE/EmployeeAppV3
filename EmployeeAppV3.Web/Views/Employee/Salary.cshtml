@@ -1,5 +1,4 @@
-﻿@model Employee
-@{
+﻿@{
     ViewBag.Title = "Lönespec";    
 }
 
@@ -7,21 +6,21 @@
 
 <ul>
     <li>
-        <h4>Anställnings nummer: @Model.Id</h4>
+        <h4>Anställnings nummer: @Model.EmployeeService.GetEmployeeById(ViewBag.Id).Id</h4>
     </li>
     <li>
-        <h4>Namn: @Model.Name</h4>
+        <h4>Namn: @Model.EmployeeService.GetEmployeeById(ViewBag.Id).Name</h4>
     </li>
 
     <li>
-        <h4>Du har @Model.Salary kr/tim</h4>
+        <h4>Du har @Model.EmployeeService.GetEmployeeById(ViewBag.Id).Salary kr/tim</h4>
     </li>
     <li>
-        <h4> Arbetad tid: @Model.WorkedTime timmar</h4>
+        <h4> Arbetad tid: @Model.EmployeeService.GetEmployeeById(ViewBag.Id).WorkedTime timmar</h4>
     </li>
 
 </ul>
 <br />
 
 <hr />
-<h4>Lön: @Model.MonthSalary kr</h4>
+<h4>Lön: @Model.EmployeeService.GetEmployeeById(ViewBag.Id).MonthSalary kr</h4>

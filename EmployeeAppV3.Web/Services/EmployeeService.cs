@@ -1,20 +1,27 @@
 ﻿using EmployeeAppV3.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 
 namespace EmployeeAppV3.Web.Services;
 
-public class EmployeeService
-{
-    static List<Employee> employees = new List<Employee>([
-        new Employee{Id = 1, Name = "Christofer", Email = "Koffe@internet.se", Salary = 1337},
-        new Employee{Id = 3, Name = "Viktor", Email = "Viktor@internet.se", Salary = 13},
-        new Employee{Id = 2, Name = "Evelina", Email = "Evelina@internet.se", Salary = 37}
-        ]);
+public class EmployeeService : Controller
+{   
+    static private List<Employee> employees = new List<Employee>([
+             new Employee{Id = 1, Name = "Christofer", Email = "Koffe@internet.se", Salary = 1337},
+                new Employee{Id = 3, Name = "Viktor", Email = "Viktor@internet.se", Salary = 13},
+                new Employee{Id = 2, Name = "Evelina", Email = "Evelina@internet.se", Salary = 37}
+         ]);
+
+    public EmployeeService()
+    {
+
+    }
+    
 
     public Employee[] GetAllEmployees() => employees.OrderBy(x => x.Id).ToArray();
 
     public Employee GetEmployeeById(int id) => employees.SingleOrDefault(x => x.Id == id); // Skickar null om jag inte får något ID
-
+       
     public void AddTime(int id, bool punchedIn)
     {
         foreach (var anställd in employees)
@@ -77,7 +84,7 @@ public class EmployeeService
             if (employed.Id == employee.Id)
             {
                 employed.WorkedTime += time;
-                employed.MonthSalary += Convert.ToInt32(employed.WorkedTime * 1200);
+                employed.MonthSalary += Convert.ToInt32(employed.WorkedTime * employed.Salary);
                 break;
             }
         }

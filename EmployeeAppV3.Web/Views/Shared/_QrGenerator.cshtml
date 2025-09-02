@@ -1,7 +1,7 @@
 ﻿@using QRCoder
 @using static QRCoder.PayloadGenerator
 @{
-    Url generator = new Url($"https://localhost:7152/Punchclock?id={Model.Id}");
+    Url generator = new Url($"https://localhost:7152/Punchclock?id={Model.EmployeeService.GetEmployeeById}");
     string payload = generator.ToString();
 
     QRCodeGenerator qrGenerator = new QRCodeGenerator();

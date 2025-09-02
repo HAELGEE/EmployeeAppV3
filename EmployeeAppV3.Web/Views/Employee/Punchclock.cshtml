@@ -1,8 +1,6 @@
 ﻿@{
     ViewBag.Title = "Stämpel Klocka";
 }
-@model Employee[]
-
 
 
 @if (ViewBag.SelectedId == null)
@@ -17,7 +15,7 @@ else
 {
     var selectedId = (int)ViewBag.SelectedId;
 
-    var anställd = Model.FirstOrDefault(e => e.Id == selectedId);
+    var anställd = Model.EmployeeService.GetEmployeeById(selectedId);
 
     if (anställd != null)
     {

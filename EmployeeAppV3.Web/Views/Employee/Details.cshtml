@@ -1,28 +1,31 @@
-﻿@model Employee
-@{
+﻿@{
     ViewBag.Title = "Information om Anställd";
     string Start = "";
     string Stop = "";
 
-    foreach(var time in Model.DayStamps!)
+    foreach (var time in Model.EmployeeService.GetEmployeeById(ViewBag.Id).DayStamps)
     {
         Start = time.Started.ToString()!;
-        Stop = time.Stopped.ToString()!;
-    }    
+        if (time.Stopped != null)
+            Stop = time.Stopped.ToString()!;
+    }
 }
 <partial name="_QrGenerator" model="Model" />
 
 <div style="position: absolute; left: 60rem; top: 3rem;">
 
-    @if (Model.DayStamps!.Count() != 0)
+    @if (Model.EmployeeService.GetEmployeeById(ViewBag.Id).DayStamps.Count != 0)
     {
         <h4><u>Dina stämplingar:</u></h4>
-        @foreach (var day in Model.DayStamps!)
-        {   
-            <h5>In: <u>@day.Started</u> - Ut: @if(day.Stopped != null) {<u>@day.Stopped</u>}</h5>
+        @foreach (var day in Model.EmployeeService.GetEmployeeById(ViewBag.Id).DayStamps!)
+        {
+            <h5>In: <u>@day.Started</u> - Ut: @if(day.Stopped != null) {
+            <u>@day.Stopped</u>
         }
+    </h5>
     }
-    else
+        }
+        else
     {
         <h4><u>Dina stämplingar:</u></h4>
         <h5>Finns inga stämplingar än</h5>
@@ -30,24 +33,31 @@
 </div>
 
 <h3><u>Id:</u></h3>
-<h4>@Model.Id</h4>
+<h4>@Model.EmployeeService.GetEmployeeById(ViewBag.Id).Id</h4>
 <br />
 <h3><u>Namn:</u></h3>
-<h4>@Model.Name</h4>
+<h4>@Model.EmployeeService.GetEmployeeById(ViewBag.Id).Name</h4>
 <br />
 <h3><u>Email:</u></h3>
-<h4>@Model.Email</h4>
+<h4>@Model.EmployeeService.GetEmployeeById(ViewBag.Id).Email</h4>
 <br />
 <h3><u>Stämpling:</u></h3>
-@if (Model.PunchedIn! == true || Model.PunchedIn! == null)
+@if (Model.EmployeeService.GetEmployeeById(ViewBag.Id).PunchedIn! == true || Model.EmployeeService.GetEmployeeById(ViewBag.Id).PunchedIn! == null)
 {
-    @if (Model.DayStamps.Count != 0){<h4>Instämplad: <u>@Start</u></h4>}
-    else{<h4>Inga stämplingar än</h4>}
+    @if (Model.EmployeeService.GetEmployeeById(ViewBag.Id).DayStamps.Count != 0)
+    {
+        <h4>Instämplad: <u>@Start</u></h4>
+    }
+    else
+    {
+
+        <h4>Inga stämplingar än</h4>
+    }
 }
 else
-{    
+{
     <h4> Utstämplad: <u>@Stop</u> </h4>
 }
 <br />
-<a asp-controller="employee" asp-action="Salary" asp-route-id="@Model.Id">Kolla lön</a>
+<a asp-controller="employee" asp-action="Salary" asp-route-id="@Model.EmployeeService.GetEmployeeById(ViewBag.Id).Id">Kolla lön</a>
 

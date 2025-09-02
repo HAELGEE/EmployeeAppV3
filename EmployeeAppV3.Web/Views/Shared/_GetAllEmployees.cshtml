@@ -1,16 +1,14 @@
 ﻿@{
 
 }
-@model Employee[]
+
+
 <div>
-    @foreach (var person in Model)
-    {       
-        if (person.PunchedIn! == true)
+    @foreach (var person in Model.EmployeeService.GetAllEmployees())
+    {
+        if (person.PunchedIn == true)
         {
-            foreach (var time in person.DayStamps)
-            {
-                <h5>@person.Name - @time.Started</h5>
-            }
+            <h5>@person.Name - @person.DayStamps![0].Started</h5>
         }
     }
 </div>
