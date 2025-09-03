@@ -36,15 +36,15 @@ public class EmployeeController : Controller
     // Skapa anställd
     [HttpGet("Create")]
     public IActionResult Create()
-    {
-        viewModel.EmployeeService = _employeeService;
-        return View(viewModel);
+    {        
+        return View();
     }
     [HttpPost("Create")]
     public IActionResult Create(Employee employee)
     {
+        viewModel.EmployeeService = _employeeService;
         if (!ModelState.IsValid)
-            return View();
+            return View();        
 
         _employeeService.CreateEmployee(employee);
         return RedirectToAction(nameof(Index));
